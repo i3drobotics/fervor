@@ -34,7 +34,8 @@ SOURCES += \
         $$PWD/fvplatform.cpp \
         $$PWD/fvignoredversions.cpp \
         $$PWD/fvavailableupdate.cpp \
-        $$PWD/fvupdateconfirmdialog.cpp
+        $$PWD/fvupdateconfirmdialog.cpp \
+        $$PWD/qtdownload.cpp
 
 HEADERS += \
         $$PWD/fvupdatewindow.h \
@@ -43,7 +44,8 @@ HEADERS += \
         $$PWD/fvplatform.h \
         $$PWD/fvignoredversions.h \
         $$PWD/fvavailableupdate.h \
-        $$PWD/fvupdateconfirmdialog.h
+        $$PWD/fvupdateconfirmdialog.h \
+        $$PWD/qtdownload.h
 
 FORMS += $$PWD/fvupdatewindow.ui \
         $$PWD/fvupdateconfirmdialog.ui

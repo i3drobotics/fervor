@@ -54,6 +54,20 @@ bool FvUpdateWindow::UpdateWindowWithCurrentProposedUpdate()
 	return true;
 }
 
+void FvUpdateWindow::enableProgressBar(bool enable){
+    m_ui->progressBarDownload->setEnabled(enable);
+}
+
+void FvUpdateWindow::enableButtons(bool enable){
+    m_ui->installUpdateButton->setEnabled(enable);
+    m_ui->skipThisVersionButton->setEnabled(enable);
+    m_ui->remindMeLaterButton->setEnabled(enable);
+}
+
+void FvUpdateWindow::downloadProgress(float progress) {
+    m_ui->progressBarDownload->setValue(progress);
+}
+
 void FvUpdateWindow::closeEvent(QCloseEvent* event)
 {
 	FvUpdater::sharedUpdater()->updaterWindowWasClosed();

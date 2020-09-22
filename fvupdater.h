@@ -6,6 +6,7 @@
 #include <QNetworkAccessManager>
 #include <QUrl>
 #include <QXmlStreamReader>
+#include "qtdownload.h"
 class FvUpdateWindow;
 class FvUpdateConfirmDialog;
 class FvAvailableUpdate;
@@ -25,6 +26,9 @@ public:
 	void SetFeedURL(QUrl feedURL);
 	void SetFeedURL(QString feedURL);
 	QString GetFeedURL();
+
+signals:
+    void downloadFinished();
 	
 public slots:
 
@@ -34,6 +38,8 @@ public slots:
 	// Aliases
 	bool CheckForUpdatesSilent();
 	bool CheckForUpdatesNotSilent();
+
+    void RunUpdator();
 
 
 	//
@@ -60,6 +66,7 @@ protected slots:
 	// Update confirmation dialog button slots
 	void UpdateInstallationConfirmed();
 	void UpdateInstallationNotConfirmed();
+    void downloaderComplete(void);
 
 private:
 
@@ -113,6 +120,8 @@ private:
 
 	void startDownloadFeed(QUrl url);	// Start downloading feed
 	void cancelDownloadFeed();			// Stop downloading the current feed
+
+    QtDownload* m_downloader;
 
 private slots:
 

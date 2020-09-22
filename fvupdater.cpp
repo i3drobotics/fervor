@@ -4,6 +4,7 @@
 #include "fvplatform.h"
 #include "fvignoredversions.h"
 #include "fvavailableupdate.h"
+#include "qtdownload.h"
 #include <QApplication>
 #include <QtNetwork>
 #include <QMessageBox>
@@ -216,14 +217,28 @@ void FvUpdater::UpdateInstallationConfirmed()
 		return;
 	}
 
-	// Open a link
-	if (! QDesktopServices::openUrl(proposedUpdate->GetEnclosureUrl())) {
-		showErrorDialog(tr("Unable to open this link in a browser. Please do it manually."), true);
-		return;
-	}
+    m_downloader = new QtDownload();
+    QString installer_filepath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/StereoVisionToolkit-installer.exe";
+    m_downloader->setTarget(proposedUpdate->GetEnclosureUrl(), installer_filepath);
+    m_downloader->download();
 
-	hideUpdaterWindow();
-	hideUpdateConfirmationDialog();
+    QObject::connect(m_downloader, SIGNAL(progress(float)), m_updaterWindow, SLOT(downloadProgress(float)));
+    QObject::connect(m_downloader, SIGNAL(done(void)), this, SLOT(downloaderComplete(void)));
+    m_updaterWindow->enableProgressBar(true);
+    m_updaterWindow->enableButtons(false);
+
+    //hideUpdaterWindow();
+    hideUpdateConfirmationDialog();
+}
+
+void FvUpdater::downloaderComplete()
+{
+    emit downloadFinished();
+}
+
+void FvUpdater::RunUpdator()
+{
+    m_downloader->runFile();
 }
 
 void FvUpdater::UpdateInstallationNotConfirmed()
